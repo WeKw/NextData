@@ -15,6 +15,8 @@ int main(int ngrv, char *ngrc[]) {
     for (int i = 0; i < l; ++i) {
         (n *= 10) += ngrc[1][i] - '0';
     }
+    system("g++ -o data data.cpp -lm -O3 -std=c++11");
+    system("g++ -o std std.cpp -lm -O3 -std=c++11");
     for (int i = 1; i <= n; ++i) {
         x = i;
         y = 0;
@@ -23,12 +25,13 @@ int main(int ngrv, char *ngrc[]) {
             ++y;
         }
         memset(a, 0, sizeof(a));
+        x = i;
         for (int j = y - 1; ~j; --j) {
             a[j] = x % 10 + '0';
             x /= 10;
         }
         freopen("data.in", "w", stdout);
-        printf("%d\n", i);
+        printf("%d %d\n", i, n);
         fclose(stdout);
         memset(b, 0, sizeof(b));
         sprintf(b, "data < data.in > data%s.in", a);
