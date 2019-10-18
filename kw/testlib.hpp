@@ -5,6 +5,10 @@
 #define STD_BITS_STDCPP_H
 #include <bits/stdc++.h>
 #endif
+#ifndef STD_WINDOWS_H
+#define STD_WINDOWS_H
+#include <windows.h>
+#endif
 // Function Definition
 namespace kw {
     long long random(long long, long long);

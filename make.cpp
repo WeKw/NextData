@@ -1,7 +1,7 @@
 #include "kw/testlib.hpp"
 const int C = 10001;
 char a[C], b[C];
-int n, l, x, y;
+int n, l, x, y, tim;
 int main(int ngrv, char *ngrc[]) {
     if (ngrv != 2) {
         fprintf(stderr, "Error: The command syntax is not right.\n");
@@ -13,13 +13,17 @@ int main(int ngrv, char *ngrc[]) {
         return 0;
     }
     for (int i = 0; i < l; ++i) {
-        (n *= 10) += ngrc[1][i] - '0';
+        if (ngrc[1][i] < '0' || ngrc[1][i] > '9') {
+            fprintf(stderr, "Error: Number of data is not a integer.\n");
+            return 0;
+        }
     }
+    sscanf(ngrc[1], "%d", &n);
     system("g++ -o data data.cpp -lm -O3 -std=c++11");
     system("g++ -o std std.cpp -lm -O3 -std=c++11");
     for (int i = 1; i <= n; ++i) {
         x = i;
-        y = 0;
+        y = 0;  
         while (x) {
             x /= 10;
             ++y;
@@ -33,13 +37,19 @@ int main(int ngrv, char *ngrc[]) {
         freopen("data.in", "w", stdout);
         printf("%d %d\n", i, n);
         fclose(stdout);
-        memset(b, 0, sizeof(b));
+        memset(b, 0, sizeof(b));    
         sprintf(b, "data < data.in > data%s.in", a);
+        Sleep(1000);
+        tim = GetTickCount();
         system(b);
+        tim = GetTickCount() - tim;
+        fprintf(stderr, "Message: No.%s data used %d ms.\n", a, tim);
         memset(b, 0, sizeof(b));
         sprintf(b, "std < data%s.in > data%s.ans", a, a);
+        tim = GetTickCount();
         system(b);
-        fprintf(stderr, "Message: No.%s data is OK!\n", a);
+        tim = GetTickCount() - tim;
+        fprintf(stderr, "Message: No.%s std used %d ms.\n", a, tim);
     }
     system("rm -rf data.in");
     system("rm -rf std.exe");
